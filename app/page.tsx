@@ -5,3 +5,9 @@ export default function Home() {
     </div>
   )
 }
+
+/* 
+Nextjs ECommerce Tutorial For Beginners 2023 [Next.js, MongoDB & Tailwind]
+channel: Coding with Basir
+https://www.youtube.com/watch?v=_IBlyR5mRzA&list=WL&index=16&t=1694s
+*/

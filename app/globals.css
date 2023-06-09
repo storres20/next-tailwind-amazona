@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .card {
-  @apply mb-5 block rounded-lg border border-gray-200 shadow-md flex flex-col items-center;
+  @apply mb-5 block rounded-lg border border-gray-200 shadow-md flex flex-col;
 }
 
 .primary-button {

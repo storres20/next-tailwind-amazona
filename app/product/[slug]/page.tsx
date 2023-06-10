@@ -1,8 +1,10 @@
-// use client
-import React from 'react'
+'use client'
+
+import React, { useContext } from 'react'
 import data from '@/utils/data'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Store } from '@/utils/Store'
 
 interface PageProps {
   params: {
@@ -11,14 +13,28 @@ interface PageProps {
 }
 
 export default function Page({ params }: PageProps) {
+  const { state, dispatch } = useContext(Store)
+
   const { slug } = params
-  console.log(slug)
 
   const product = data.products.find((a) => a.slug === slug)
-  console.log(product)
 
   if (!product) {
     return <div>Product Not Found</div>
+  }
+
+  const addToCartHandler = () => {
+    const existItem = state.cart.cartItems.find(
+      (x: typeof product) => x.slug === product.slug
+    )
+    const quantity = existItem ? existItem.quantity + 1 : 1
+
+    if (product.countInStock < quantity) {
+      alert('Sorry. Product is out of stock')
+      return
+    }
+
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } })
   }
 
   return (
@@ -59,7 +75,12 @@ export default function Page({ params }: PageProps) {
               <div>Status</div>
               <div>{product.countInStock > 0 ? 'In Stock' : 'Unavailable'}</div>
             </div>
-            <button className="primary-button w-full">Add to cart</button>
+            <button
+              className="primary-button w-full"
+              onClick={addToCartHandler}
+            >
+              Add to cart
+            </button>
           </div>
         </div>
       </div>

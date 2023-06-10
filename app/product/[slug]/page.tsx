@@ -4,6 +4,7 @@ import React, { useContext } from 'react'
 import data from '@/utils/data'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { Store } from '@/utils/Store'
 
 interface PageProps {
@@ -14,6 +15,7 @@ interface PageProps {
 
 export default function Page({ params }: PageProps) {
   const { state, dispatch } = useContext(Store)
+  const router = useRouter()
 
   const { slug } = params
 
@@ -35,6 +37,7 @@ export default function Page({ params }: PageProps) {
     }
 
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } })
+    router.push('/cart')
   }
 
   return (

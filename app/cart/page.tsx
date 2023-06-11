@@ -14,6 +14,7 @@ interface CartItem {
   name: string
   quantity: number
   price: number
+  countInStock: number
 }
 
 export default function CartScreen() {
@@ -26,6 +27,11 @@ export default function CartScreen() {
 
   const removeItemHandler = (item: CartItem) => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item })
+  }
+
+  const updateCartHandler = (item: CartItem, qty: number) => {
+    const quantity = Number(qty)
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } })
   }
 
   return (
@@ -67,7 +73,24 @@ export default function CartScreen() {
                         </div>
                       </Link>
                     </td>
-                    <td className="p-5 text-right">{item.quantity}</td>
+                    <td className="p-5 text-right">
+                      <select
+                        value={item.quantity}
+                        onChange={(e) =>
+                          updateCartHandler(item, parseInt(e.target.value))
+                        }
+                        className="p-2 rounded-lg"
+                      >
+                        {[...Array(item.countInStock).keys()].map((x) => (
+                          <option
+                            key={x + 1}
+                            value={x + 1}
+                          >
+                            {x + 1}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
                     <td className="p-5 text-right">{item.price}</td>
                     <td className="p-5 text-center">
                       <button onClick={() => removeItemHandler(item)}>

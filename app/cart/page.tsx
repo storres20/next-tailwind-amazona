@@ -3,6 +3,7 @@
 import { Store } from '@/utils/Store'
 import Image from 'next/image'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 import React, { useContext } from 'react'
 import { BsXCircle } from 'react-icons/bs'
@@ -17,7 +18,7 @@ interface CartItem {
   countInStock: number
 }
 
-export default function CartScreen() {
+function CartScreen() {
   const { state, dispatch } = useContext(Store)
   const router = useRouter()
 
@@ -133,3 +134,5 @@ export default function CartScreen() {
     </div>
   )
 }
+
+export default dynamic(() => Promise.resolve(CartScreen), { ssr: false })

@@ -2,11 +2,21 @@
 
 import { Store } from '@/utils/Store'
 import Link from 'next/link'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 export default function Header() {
   const { state } = useContext(Store)
   const { cart } = state
+  const [cartItemsCount, setCartItemsCount] = useState(0)
+
+  useEffect(() => {
+    setCartItemsCount(
+      cart.cartItems.reduce(
+        (a: number, c: { quantity: number }) => a + c.quantity,
+        0
+      )
+    )
+  }, [cart.cartItems])
 
   return (
     <header>
@@ -23,12 +33,9 @@ export default function Header() {
             className="p-2"
           >
             Cart
-            {cart.cartItems.length > 0 && (
+            {cartItemsCount > 0 && (
               <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
-                {cart.cartItems.reduce(
-                  (a: number, c: { quantity: number }) => a + c.quantity,
-                  0
-                )}
+                {cartItemsCount}
               </span>
             )}
           </Link>
